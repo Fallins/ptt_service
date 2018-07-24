@@ -1,0 +1,23 @@
+{
+  "name": "ptt_service",
+  "version": "0.0.1",
+  "description": "simple way to get ptt's news",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d build",
+    "start:dev": "nodemon --watch src --exec \"npm run build && node build/index.js\"",
+    "start": "node build/index.js"
+  },
+  "author": "Ben",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  }
+}
