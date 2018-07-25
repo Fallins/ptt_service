@@ -1,31 +1,13 @@
 import axios from 'axios'
 import querystring from 'querystring'
-import { hotBoardsHandler, postsHandler } from './model'
+import { hotBoardsHandler, postsHandler, postHandler } from './model'
 import { BASE_URL, POSTS_COUNT_PER_PAGE } from './config'
 
 // 取得熱門看板
-const getHotBoards = () => {
-    return axios.get(`${BASE_URL}/bbs/hotboards.html`)
-        .then(response => {
-            // console.log(response.data)
-            const result = hotBoardsHandler(response.data)
-            console.log( result  )        
-            return result  
-        })
-        .catch(e => console.log(e))
-}
-
+const getHotBoards = () => get('/bbs/hotboards.html', hotBoardsHandler)
 
 // 取得最新貼文列表(含置頂)
-const getPosts = (url) => {
-    return axios({
-        method: 'get',
-        url: `${BASE_URL}${url}`,
-        headers: {             
-            'Cache-Control': 'no-cache',
-            'Cookie': "over18=1;"}
-    }).then(response => postsHandler(response.data.replace(/(\n|\t|\r)/gm, '')))
-}
+const getPosts = (url) => get(url, postsHandler)
 
 // 取得固定數量貼文列表
 const getPostsByCount = (url, count) => {
@@ -61,6 +43,8 @@ const getPostsByPage = (url, page = '') => {
     return getPosts(newUrl)
 }
 
+const getPost = (url) => get(url, postHandler)
+
 // const over18 = (url) => {
 //     return axios({
 //         method: 'post',
@@ -76,8 +60,21 @@ const getPostsByPage = (url, page = '') => {
 //     })
 // }
 
+const get = (url, handler) => {
+    return axios({
+        method: 'get',
+        url: `${BASE_URL}${url}`,
+        headers: {             
+            'Cache-Control': 'no-cache',
+            'Cookie': "over18=1;"}
+    })
+        .then(response => handler(response.data.replace(/(\n|\t|\r)/gm, '')))
+        .catch(e => console.log)
+}
+
 export default {
     getHotBoards,
     getPosts,
-    getPostsByCount
+    getPostsByCount,
+    getPost
 }
