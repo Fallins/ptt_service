@@ -1,18 +1,22 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import service from './service'
+import favicon from 'serve-favicon'
+import path from 'path'
 
 const PORT = process.env.PORT || 8888
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 // default is get hot boards
 app.get('/', (req, res) => {    
     service.getHotBoards()
         .then(boards => {
             console.log(boards)
-            res.json(boards)
+            // res.json(boards)
+            res.send(boards)
         })    
 })
 
