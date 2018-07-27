@@ -43,7 +43,7 @@ const getPostsByPage = (url, page = '') => {
     return getPosts(newUrl)
 }
 
-const getPost = (url) => get(url, postHandler)
+const getPost = (url) => get(url, postHandler, true)
 
 // const over18 = (url) => {
 //     return axios({
@@ -60,7 +60,7 @@ const getPost = (url) => get(url, postHandler)
 //     })
 // }
 
-const get = (url, handler) => {
+const get = (url, handler, replaceToBR) => {
     return axios({
         method: 'get',
         url: `${BASE_URL}${url}`,
@@ -68,7 +68,11 @@ const get = (url, handler) => {
             'Cache-Control': 'no-cache',
             'Cookie': "over18=1;"}
     })
-        .then(response => handler(response.data.replace(/(\n|\t|\r)/gm, '')))
+        .then(response => {
+            return replaceToBR ?
+                handler(response.data) :
+                handler(response.data.replace(/(\n|\t|\r)/gm, ''))
+        })
         .catch(e => console.log)
 }
 

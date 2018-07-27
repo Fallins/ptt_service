@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
 
 const postHandler = (data) => {
+    console.log(data)
     const $ = cheerio.load(data)
     
     let auther, title, time, content, pushes = []  
@@ -34,7 +35,7 @@ const postHandler = (data) => {
 
     // remove will cause side effect, So it has to be process in the end
     $('#main-content div').remove()
-    $('#main-content span').remove()
+    // $('#main-content span').remove()
     
     content = $('#main-content').text()
 

@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import morgan from 'morgan'
 import service from './service'
 import favicon from 'serve-favicon'
 import path from 'path'
@@ -9,6 +10,8 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+// log all request details
+app.use(morgan('dev'))
 
 // default is get hot boards
 app.get('/', (req, res) => {    
