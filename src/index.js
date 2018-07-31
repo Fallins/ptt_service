@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 // get the post which you specify
 app.get('/post', (req, res) => {
     const { url } = req.query
-    service.getPost(url)
+    service.getPostInHTML(url)
         .then(posts => {
             console.log(posts)
             res.json(posts)
