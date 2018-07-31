@@ -4,7 +4,7 @@ const postHandler = (data) => {
     console.log(data)
     const $ = cheerio.load(data)
     
-    let auther, title, time, content, pushes = []  
+    let auther, title, time, content, pushes = [], html
     
     $('#main-content .article-meta-value').each((i, ele) => {
         const $ele = $(ele)
@@ -34,13 +34,19 @@ const postHandler = (data) => {
     })
 
     // remove will cause side effect, So it has to be process in the end
+    $('#main-content .richcontent').each((i, ele) => {
+        const $ele = $(ele)
+        $ele.after($ele.find('img, iframe'))
+    })
     $('#main-content div').remove()
-    // $('#main-content span').remove()
+    $('#main-content span>a').remove()
+    $('#main-content a').remove()
     
     content = $('#main-content').text()
+    html = $('#main-content').html()
 
-    console.log({auther, title, time, content, pushes})
-    return {auther, title, time, content, pushes}
+    console.log({auther, title, time, content, pushes, html})
+    return {auther, title, time, content, pushes, html}
 }
 
 export default postHandler

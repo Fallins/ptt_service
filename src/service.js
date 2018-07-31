@@ -43,7 +43,9 @@ const getPostsByPage = (url, page = '') => {
     return getPosts(newUrl)
 }
 
-const getPost = (url) => get(url, postHandler, true)
+const getPost = (url) => get(url, postHandler)
+
+const getPostInHTML = (url) => get(url, postHandler, true)
 
 // const over18 = (url) => {
 //     return axios({
@@ -60,7 +62,7 @@ const getPost = (url) => get(url, postHandler, true)
 //     })
 // }
 
-const get = (url, handler, replaceToBR) => {
+const get = (url, handler, inHTML) => {
     return axios({
         method: 'get',
         url: `${BASE_URL}${url}`,
@@ -69,7 +71,10 @@ const get = (url, handler, replaceToBR) => {
             'Cookie': "over18=1;"}
     })
         .then(response => {
-            return replaceToBR ?
+            console.log("============")
+            console.log(response.data)
+            console.log("============")
+            return inHTML ?
                 handler(response.data) :
                 handler(response.data.replace(/(\n|\t|\r)/gm, ''))
         })
@@ -80,5 +85,6 @@ export default {
     getHotBoards,
     getPosts,
     getPostsByCount,
-    getPost
+    getPost,
+    getPostInHTML
 }
