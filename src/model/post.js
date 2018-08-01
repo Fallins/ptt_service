@@ -45,7 +45,7 @@ const postHandler = (data) => {
     content = $('#main-content').text()
     html = $('#main-content').html()
 
-    console.log({auther, title, time, content, pushes, html})
+    // console.log({auther, title, time, content, pushes, html})
     return {auther, title, time, content, pushes, html}
 }
 

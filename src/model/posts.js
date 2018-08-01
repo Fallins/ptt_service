@@ -33,6 +33,9 @@ const postsHandler = (data) => {
     const length = $('.r-list-sep ~ .r-ent').length
     const popular = posts.splice(-length, length)
 
+    // 顛倒順序以符合正確的時間順序
+    posts.reverse()
+
     // console.log({posts, popular, length, prevPage})
     return {posts, popular, prevPage}
 }
