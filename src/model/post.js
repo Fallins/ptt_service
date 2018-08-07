@@ -4,8 +4,10 @@ const postHandler = (data) => {
     console.log(data)
     const $ = cheerio.load(data)
     
-    let auther, title, time, content, pushes = [], html
-    
+    let auther, title, time, content, pushes = [], html, share
+
+    share = $('.share .fb-like').data('href')
+
     $('#main-content .article-meta-value').each((i, ele) => {
         const $ele = $(ele)
         switch(i){
@@ -46,7 +48,7 @@ const postHandler = (data) => {
     html = $('#main-content').html()
 
     // console.log({auther, title, time, content, pushes, html})
-    return {auther, title, time, content, pushes, html}
+    return {auther, title, time, content, pushes, html, share}
 }
 
 export default postHandler
