@@ -71,9 +71,9 @@ const get = (url, handler, inHTML) => {
             'Cookie': "over18=1;"}
     })
         .then(response => {
-            console.log("============")
-            console.log(response.data)
-            console.log("============")
+            // console.log("============")
+            // console.log(response.data)
+            // console.log("============")
             return inHTML ?
                 handler(response.data) :
                 handler(response.data.replace(/(\n|\t|\r)/gm, ''))

@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
             console.log(boards)
             // res.json(boards)
             res.send(boards)
+        })
+        .catch(err => {
+            console.log(err)
+            throw new Error(err)
         })    
 })
 
@@ -31,6 +35,10 @@ app.get('/post', (req, res) => {
             console.log(posts)
             res.json(posts)
         })
+        .catch(err => {
+            console.log(err)
+            throw new Error(err)
+        }) 
 })
 
 // get post list and quantity is base on count
@@ -41,6 +49,10 @@ app.get('/list', (req, res) => {
             console.log(posts)
             res.json(posts)
         })
+        .catch(err => {
+            console.log(err)
+            throw new Error(err)
+        }) 
 })
 
 

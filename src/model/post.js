@@ -1,7 +1,7 @@
 import cheerio from 'cheerio'
 
 const postHandler = (data) => {
-    console.log(data)
+    // console.log(data)
     const $ = cheerio.load(data)
     
     let auther, title, time, content, pushes = [], html, share
