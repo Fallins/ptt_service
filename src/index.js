@@ -14,7 +14,7 @@ app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(morgan('dev'))
 
 // default is get hot boards
-app.get('/', (req, res) => {    
+app.get('/', (req, res) => {
     service.getHotBoards()
         .then(boards => {
             console.log(boards)
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
         .catch(err => {
             console.log(err)
             throw new Error(err)
-        })    
+        })
 })
 
 // get the post which you specify
@@ -38,11 +38,11 @@ app.get('/post', (req, res) => {
         .catch(err => {
             console.log(err)
             throw new Error(err)
-        }) 
+        })
 })
 
 // get post list and quantity is base on count
-app.get('/list', (req, res) => {        
+app.get('/list', (req, res) => {
     const { url, count = 10 } = req.query
     service.getPostsByCount(url, count)
         .then(posts => {
@@ -52,7 +52,20 @@ app.get('/list', (req, res) => {
         .catch(err => {
             console.log(err)
             throw new Error(err)
-        }) 
+        })
+})
+
+app.get('/beauty', (req, res) => {
+    service.getBeauties()
+        .then(images => {
+            // console.log(images)
+            res.json(images)
+        })
+        .catch(err => {
+            console.log(err)
+            throw new Error(err)
+        })
+
 })
 
 
