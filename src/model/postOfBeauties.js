@@ -8,10 +8,15 @@ const beautyPostHandler = (data) => {
 
 
     $('#main-content .richcontent').each((i, ele) => {
-        const $ele = $(ele).find('a').attr('href')
+        const href = $(ele).find('a').attr('href')
 
-        if($ele !== undefined)
-          images.push(`https:${$ele}`)
+        if(href !== undefined){
+          const hash = href.replace('//imgur.com/', '')
+          // the correct url is: https://i.imgur.com/${hash}.jpg
+          images.push(`https://i.imgur.com/${hash}.jpg`)
+        }
+
+
     })
 
     return {images}
