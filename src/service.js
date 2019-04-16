@@ -128,9 +128,11 @@ const getIgImages = async (type = 'tags', keyword = 'minaaaa_908') => {
         let url = getUrl(type, keyword)
         console.log(url)
         // seems IG can NOT use the headless mode to fetch
-        const browser = await puppeteer.launch({headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox']})
+        const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
         const page = await browser.newPage()
-        await page.goto(url)
+        await page.goto(url, {
+            timeout: 3000000
+        })
 
         // simulate the scroll action to fetch as more as posible
         await page.evaluate(() => { window.scrollTo(0, 3000) })
