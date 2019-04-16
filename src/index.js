@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
@@ -68,6 +69,17 @@ app.get('/beauty', (req, res) => {
 
 })
 
-
+app.get('/ig/:type/:keyword', (req, res) => {
+    const { type, keyword } = req.params
+    service.igGet(type, keyword)
+        .then(images => {
+            // console.log(images)
+            res.json(images)
+        })
+        .catch(err => {
+            console.log(err)
+            throw new Error(err)
+        })
+})
 
 app.listen(PORT, () => console.log(`Server has started on port ${PORT}`))

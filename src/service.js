@@ -1,7 +1,8 @@
 import axios from 'axios'
 import querystring from 'querystring'
-import { hotBoardsHandler, postsHandler, postHandler, beautyPostHandler } from './model'
+import { hotBoardsHandler, postsHandler, postHandler, beautyPostHandler, igHandler } from './handler'
 import { BASE_URL, POSTS_COUNT_PER_PAGE } from './config'
+import { timeout } from './utils'
 
 // 取得熱門看板
 const getHotBoards = () => get('/bbs/hotboards.html', hotBoardsHandler)
@@ -110,11 +111,52 @@ const get = (url, handler, inHTML) => {
         .catch(e => console.log)
 }
 
+// ============================
+import puppeteer from 'puppeteer'
+
+
+const igGet = async (type = 'tags', keyword = 'minaaaa_908') => {
+    try{
+        const getUrl = (type, keyword) => {
+            const urlMapping = {
+                tags: `https://www.instagram.com/explore/tags/${keyword}/`,
+                account: `https://www.instagram.com/${keyword}/`
+            }
+            return urlMapping[type]
+        }
+
+        let url = getUrl(type, keyword)
+        console.log(url)
+        // seems IG can NOT use the headless mode to fetch
+        const browser = await puppeteer.launch({headless: false})
+        const page = await browser.newPage()
+        await page.goto(url)
+
+        // simulate the scroll action to fetch as more as posible
+        await page.evaluate(() => { window.scrollTo(0, 3000) })
+        await page.evaluate(() => { window.scrollBy(0, 1000) })
+        await timeout(100)
+        await page.evaluate(() => { window.scrollBy(0, 1000) })
+        await timeout(100)
+        await page.evaluate(() => { window.scrollBy(0, 1000) })
+        await timeout(100)
+
+        const html = await page.content()
+        await browser.close()
+
+        return igHandler(html)
+    }catch(e) {
+        console.log(e)
+    }
+}
+
 export default {
     getHotBoards,
     getPosts,
     getPostsByCount,
     getPost,
     getPostInHTML,
-    getBeauties
+    getBeauties,
+
+    igGet
 }
