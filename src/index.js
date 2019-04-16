@@ -71,7 +71,7 @@ app.get('/beauty', (req, res) => {
 
 app.get('/ig/:type/:keyword', (req, res) => {
     const { type, keyword } = req.params
-    service.igGet(type, keyword)
+    service.getIgImages(type, keyword)
         .then(images => {
             // console.log(images)
             res.json(images)
