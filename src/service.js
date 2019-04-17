@@ -128,20 +128,23 @@ const getIgImages = async (type = 'tags', keyword = 'minaaaa_908') => {
         let url = getUrl(type, keyword)
         console.log(url)
         // seems IG can NOT use the headless mode to fetch
+        // use headless is extremely slow in local, but it is fast in heroku
+
+        // For local testing
+        // const browser = await puppeteer.launch({headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox']})
+        // For Heroku
         const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
+
         const page = await browser.newPage()
         await page.goto(url, {
-            timeout: 3000000
+            timeout: 180000
         })
 
+        await timeout(2000)
         // simulate the scroll action to fetch as more as posible
         await page.evaluate(() => { window.scrollTo(0, 3000) })
-        await page.evaluate(() => { window.scrollBy(0, 1000) })
-        await timeout(100)
-        await page.evaluate(() => { window.scrollBy(0, 1000) })
-        await timeout(100)
-        await page.evaluate(() => { window.scrollBy(0, 1000) })
-        await timeout(100)
+        await page.evaluate(() => { window.scrollBy(0, 3000) })
+        await timeout(1000)
 
         const html = await page.content()
         await browser.close()

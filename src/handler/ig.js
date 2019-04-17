@@ -5,11 +5,12 @@ const igHandler = (html) => {
     const images = []
     $('main article .FFVAD').each(function(idx, ele) {
       const srcArr = $(ele).attr('srcset').split(',')
-      images.push(srcArr[3].replace(' 480w', ''))
+      if(srcArr && srcArr[3])
+        images.push(srcArr[3].replace(' 480w', ''))
     })
 
     // console.log(images)
-    // console.log({length: images.length})
+    console.log({length: images.length})
 
     return images
 }
